@@ -764,6 +764,14 @@
 
         <div class="faq-item">
           <button class="faq-question" onclick="toggleFaq(this)">
+            Are there any known limitations?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">Codeman uses WebKit for rendering. Most VS Code features and popular extensions work perfectly. Some extensions requiring advanced browser-specific features (like SharedArrayBuffer) may have limited functionality. Core editing, IntelliSense, terminal, Git, and most popular extensions work without issues.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
             Can I request a feature?
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
           </button>
@@ -838,7 +846,7 @@
             </div>
             <div>
               <h4>Email</h4>
-              <p><a href="mailto:support@codeman.app">support@codeman.app</a></p>
+              <p><a href="/cdn-cgi/l/email-protection#84f7f1f4f4ebf6f0c4e7ebe0e1e9e5eaaae5f4f4"><span class="__cf_email__" data-cfemail="54272124243b262014373b303139353a7a352424">[email&#160;protected]</span></a></p>
             </div>
           </div>
 
@@ -916,7 +924,7 @@
 
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // FAQ toggle
   function toggleFaq(btn) {
     const item = btn.parentElement;
@@ -959,14 +967,4 @@
 
   // Scroll animations
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-</script>
-</body>
-</html>
+    entries.for
