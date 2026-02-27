@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Codeman</title>
+  <meta name="description" content="Codeman Privacy Policy. We collect no data.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-deep: #080620;
+      --bg-mid: #0f0c29;
+      --bg-card: rgba(255,255,255,0.04);
+      --cyan: #00d4ff;
+      --cyan-dim: #0070ff;
+      --text-primary: #e8eaed;
+      --text-secondary: #8b92a5;
+      --text-dim: #555d73;
+      --border: rgba(255,255,255,0.06);
+      --font-display: 'JetBrains Mono', monospace;
+      --font-body: 'DM Sans', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(ellipse 600px 400px at 20% 10%, rgba(48, 43, 99, 0.5) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 500px at 80% 80%, rgba(0, 112, 255, 0.08) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.02) 1px, transparent 1px);
+      background-size: 64px 64px;
+      pointer-events: none; z-index: 0;
+    }
+    .page { position: relative; z-index: 1; }
+    .container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+    nav {
+      position: sticky; top: 0; z-index: 100; padding: 16px 0;
+      background: rgba(8, 6, 32, 0.85);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .container { display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-primary); }
+    .nav-logo-icon { width: 36px; height: 36px; border-radius: 9px; overflow: hidden; }
+    .nav-logo-icon svg { display: block; width: 100%; height: 100%; }
+    .nav-logo span { font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: 2px; }
+    .back-link { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+    .back-link:hover { color: var(--cyan); }
+    .policy { padding: 80px 0 120px; }
+    .policy-label {
+      font-family: var(--font-display); font-size: 12px; font-weight: 600;
+      letter-spacing: 4px; text-transform: uppercase; color: var(--cyan);
+      margin-bottom: 12px; opacity: 0.7;
+    }
+    .policy h1 {
+      font-family: var(--font-display); font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700; letter-spacing: 2px; margin-bottom: 8px;
+    }
+    .policy-date { color: var(--text-dim); font-size: 14px; margin-bottom: 48px; }
+    .policy-section { margin-bottom: 40px; }
+    .policy-section h2 {
+      font-family: var(--font-display); font-size: 18px; font-weight: 700;
+      color: var(--cyan); margin-bottom: 12px; letter-spacing: 0.5px;
+    }
+    .policy-section p {
+      color: var(--text-secondary); font-size: 16px; line-height: 1.8; margin-bottom: 12px;
+    }
+    .policy-section ul {
+      color: var(--text-secondary); font-size: 16px; line-height: 1.8;
+      margin: 8px 0 12px 24px;
+    }
+    .policy-section li { margin-bottom: 6px; }
+    .policy-section a { color: var(--cyan); text-decoration: none; }
+    .policy-section a:hover { text-decoration: underline; }
+    .highlight-box {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px 28px; margin: 24px 0;
+    }
+    .highlight-box p { color: var(--text-primary); font-weight: 500; margin-bottom: 0; }
+    footer { padding: 40px 0; border-top: 1px solid var(--border); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { color: var(--text-dim); font-size: 13px; }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { color: var(--text-dim); font-size: 13px; text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text-secondary); }
+    @media (max-width: 700px) {
+      .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <nav>
+    <div class="container">
+      <a href="/" class="nav-logo">
+        <div class="nav-logo-icon">
+          <svg viewBox="0 0 512 512">
+            <defs>
+              <linearGradient id="nav-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0f0c29"/><stop offset="50%" stop-color="#302b63"/><stop offset="100%" stop-color="#24243e"/></linearGradient>
+              <linearGradient id="nav-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00d4ff"/><stop offset="100%" stop-color="#0070ff"/></linearGradient>
+            </defs>
+            <rect width="512" height="512" fill="url(#nav-bg)"/>
+            <g transform="translate(256, 232)">
+              <path d="M-155,-60 C-155,-60 -125,-82 -68,-82 C-22,-82 -12,-50 0,-50 C12,-50 22,-82 68,-82 C125,-82 155,-60 155,-60 L165,-12 C165,-12 155,65 105,76 C65,84 32,54 0,54 C-32,54 -65,84 -105,76 C-155,65 -165,-12 -165,-12 Z" fill="url(#nav-fill)" opacity="0.12"/>
+              <path d="M-155,-60 C-155,-60 -125,-82 -68,-82 C-22,-82 -12,-50 0,-50 C12,-50 22,-82 68,-82 C125,-82 155,-60 155,-60 L165,-12 C165,-12 155,65 105,76 C65,84 32,54 0,54 C-32,54 -65,84 -105,76 C-155,65 -165,-12 -165,-12 Z" fill="none" stroke="url(#nav-fill)" stroke-width="8" opacity="0.5"/>
+              <ellipse cx="-62" cy="-5" rx="48" ry="36" fill="#0f0c29" opacity="0.8"/>
+              <ellipse cx="62" cy="-5" rx="48" ry="36" fill="#0f0c29" opacity="0.8"/>
+              <path d="M-45,-22 L-82,0 L-45,22" fill="none" stroke="url(#nav-fill)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M45,-22 L82,0 L45,22" fill="none" stroke="url(#nav-fill)" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+          </svg>
+        </div>
+        <span>CODEMAN</span>
+      </a>
+      <a href="/" class="back-link">&#8592; Back to Support</a>
+    </div>
+  </nav>
+
+  <section class="policy">
+    <div class="container">
+      <p class="policy-label">// LEGAL</p>
+      <h1>Privacy Policy</h1>
+      <p class="policy-date">Effective date: February 27, 2026</p>
+
+      <div class="highlight-box">
+        <p>Codeman does not collect, store, transmit, or share any personal data or usage information. Your code and your privacy are yours alone.</p>
+      </div>
+
+      <div class="policy-section">
+        <h2>Overview</h2>
+        <p>Codeman is designed with privacy as a core principle. The app operates entirely on your device. We have no servers that receive your data, no analytics tracking your behavior, and no interest in your personal information.</p>
+      </div>
+
+      <div class="policy-section">
+        <h2>Data We Collect</h2>
+        <p>None. Codeman does not collect any data whatsoever. Specifically:</p>
+        <ul>
+          <li>No personal information (name, email, phone number)</li>
+          <li>No usage data or analytics</li>
+          <li>No crash reports or diagnostics</li>
+          <li>No device identifiers or fingerprinting</li>
+          <li>No location data</li>
+          <li>No browsing or search history</li>
+          <li>No cookies or tracking technologies</li>
+        </ul>
+      </div>
+
+      <div class="policy-section">
+        <h2>Your Code</h2>
+        <p>Any code you write, edit, or view in Codeman stays on your device or on the remote servers you choose to connect to. We never access, read, copy, or transmit your code. Your intellectual property remains entirely yours.</p>
+      </div>
+
+      <div class="policy-section">
+        <h2>Network Connections</h2>
+        <p>Codeman may connect to remote servers (via SSH or HTTPS) only when you explicitly configure a connection. These connections are made directly between your device and your server. We do not proxy, intercept, or monitor these connections in any way.</p>
+      </div>
+
+      <div class="policy-section">
+        <h2>Third-Party Services</h2>
+        <p>Codeman does not integrate with any third-party analytics, advertising, or tracking services. The app contains no ads and no third-party SDKs that collect data.</p>
+      </div>
+
+      <div class="policy-section">
+        <h2>Support Contact Form</h2>
+        <p>If you choose to contact us through the support form on this website, the information you voluntarily provide (name, email, message) is processed by Formspree and delivered to us via email. This information is used solely to respond to your inquiry and is not shared with any third parties.</p>
+      </div>
+
+      <div class="policy-section">
+        <h2>Children's Privacy</h2>
+        <p>Since we do not collect any data, there are no special concerns regarding children's privacy. Codeman is safe for users of all ages.</p>
+      </div>
+
+      <div class="policy-section">
+        <h2>Changes to This Policy</h2>
+        <p>If we ever change this privacy policy, we will update this page with the new effective date. Given our commitment to collecting no data, we do not anticipate significant changes.</p>
+      </div>
+
+      <div class="policy-section">
+        <h2>Contact</h2>
+        <p>If you have any questions about this privacy policy, please reach out via our <a href="/#contact">support contact form</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <p class="footer-copy">&#169; 2026 Codeman. All rights reserved.</p>
+        <ul class="footer-links">
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/">Support</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
