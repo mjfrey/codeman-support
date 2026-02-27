@@ -41,7 +41,6 @@
       overflow-x: hidden;
     }
 
-    /* === BACKGROUND EFFECTS === */
     body::before {
       content: '';
       position: fixed;
@@ -53,7 +52,6 @@
       z-index: 0;
     }
 
-    /* Grid overlay */
     body::after {
       content: '';
       position: fixed;
@@ -66,7 +64,6 @@
       z-index: 0;
     }
 
-    /* === LAYOUT === */
     .page { position: relative; z-index: 1; }
 
     .container {
@@ -75,11 +72,9 @@
       padding: 0 24px;
     }
 
-    section {
-      padding: 80px 0;
-    }
+    section { padding: 80px 0; }
 
-    /* === NAV === */
+    /* NAV */
     nav {
       position: sticky;
       top: 0;
@@ -150,7 +145,7 @@
     .nav-links a:hover { color: var(--cyan); }
     .nav-links a:hover::after { transform: scaleX(1); }
 
-    /* === HERO === */
+    /* HERO */
     .hero {
       text-align: center;
       padding: 120px 0 80px;
@@ -163,9 +158,7 @@
       margin: 0 auto 32px;
       border-radius: 28px;
       overflow: hidden;
-      box-shadow:
-        0 0 60px rgba(0, 212, 255, 0.15),
-        0 20px 60px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 0 60px rgba(0, 212, 255, 0.15), 0 20px 60px rgba(0, 0, 0, 0.4);
       animation: float 6s ease-in-out infinite;
     }
 
@@ -205,7 +198,7 @@
       flex-wrap: wrap;
     }
 
-    /* === BUTTONS === */
+    /* BUTTONS */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -245,7 +238,7 @@
 
     .btn svg { width: 18px; height: 18px; }
 
-    /* === SECTION HEADERS === */
+    /* SECTION HEADERS */
     .section-label {
       font-family: var(--font-display);
       font-size: 12px;
@@ -272,7 +265,7 @@
       max-width: 540px;
     }
 
-    /* === FAQ === */
+    /* FAQ */
     .faq-list {
       display: flex;
       flex-direction: column;
@@ -287,9 +280,7 @@
       transition: border-color 0.25s;
     }
 
-    .faq-item:hover, .faq-item.open {
-      border-color: var(--border-hover);
-    }
+    .faq-item:hover, .faq-item.open { border-color: var(--border-hover); }
 
     .faq-question {
       display: flex;
@@ -326,9 +317,7 @@
       transition: max-height 0.35s ease, padding 0.35s ease;
     }
 
-    .faq-item.open .faq-answer {
-      max-height: 300px;
-    }
+    .faq-item.open .faq-answer { max-height: 300px; }
 
     .faq-answer-inner {
       padding: 0 24px 20px;
@@ -337,14 +326,10 @@
       line-height: 1.7;
     }
 
-    .faq-answer-inner a {
-      color: var(--cyan);
-      text-decoration: none;
-    }
-
+    .faq-answer-inner a { color: var(--cyan); text-decoration: none; }
     .faq-answer-inner a:hover { text-decoration: underline; }
 
-    /* === DOWNLOAD === */
+    /* DOWNLOAD */
     #download { border-top: 1px solid var(--border); }
 
     .download-card {
@@ -400,17 +385,10 @@
       opacity: 0.9;
     }
 
-    .app-store-badge:hover {
-      transform: scale(1.03);
-      opacity: 1;
-    }
+    .app-store-badge:hover { transform: scale(1.03); opacity: 1; }
+    .app-store-badge img { height: 48px; display: block; }
 
-    .app-store-badge img {
-      height: 48px;
-      display: block;
-    }
-
-    /* === CONTACT === */
+    /* CONTACT */
     #contact { border-top: 1px solid var(--border); }
 
     .contact-grid {
@@ -446,22 +424,9 @@
 
     .contact-method-icon svg { width: 18px; height: 18px; }
 
-    .contact-method h4 {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .contact-method p {
-      color: var(--text-secondary);
-      font-size: 14px;
-    }
-
-    .contact-method a {
-      color: var(--cyan);
-      text-decoration: none;
-    }
-
+    .contact-method h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .contact-method p { color: var(--text-secondary); font-size: 14px; }
+    .contact-method a { color: var(--cyan); text-decoration: none; }
     .contact-method a:hover { text-decoration: underline; }
 
     .contact-form {
@@ -503,14 +468,9 @@
     }
 
     .form-group input::placeholder,
-    .form-group textarea::placeholder {
-      color: var(--text-dim);
-    }
+    .form-group textarea::placeholder { color: var(--text-dim); }
 
-    .form-group textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
 
     .form-group select {
       cursor: pointer;
@@ -520,15 +480,9 @@
       padding-right: 36px;
     }
 
-    .form-group select option {
-      background: var(--bg-mid);
-      color: var(--text-primary);
-    }
+    .form-group select option { background: var(--bg-mid); color: var(--text-primary); }
 
-    .form-submit {
-      align-self: flex-start;
-      margin-top: 4px;
-    }
+    .form-submit { align-self: flex-start; margin-top: 4px; }
 
     .form-success {
       display: none;
@@ -543,11 +497,8 @@
 
     .form-success.show { display: flex; align-items: center; gap: 10px; }
 
-    /* === FOOTER === */
-    footer {
-      padding: 40px 0;
-      border-top: 1px solid var(--border);
-    }
+    /* FOOTER */
+    footer { padding: 40px 0; border-top: 1px solid var(--border); }
 
     .footer-inner {
       display: flex;
@@ -555,16 +506,9 @@
       align-items: center;
     }
 
-    .footer-copy {
-      color: var(--text-dim);
-      font-size: 13px;
-    }
+    .footer-copy { color: var(--text-dim); font-size: 13px; }
 
-    .footer-links {
-      display: flex;
-      gap: 24px;
-      list-style: none;
-    }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
 
     .footer-links a {
       color: var(--text-dim);
@@ -575,48 +519,27 @@
 
     .footer-links a:hover { color: var(--text-secondary); }
 
-    /* === ANIMATIONS === */
+    /* ANIMATIONS */
     .fade-in {
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.6s ease, transform 0.6s ease;
     }
 
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-    /* === MOBILE === */
+    /* MOBILE */
     @media (max-width: 700px) {
       .nav-links { display: none; }
-
       .hero { padding: 80px 0 60px; }
       .hero-mask { width: 88px; height: 88px; border-radius: 22px; }
       .hero-actions { flex-direction: column; align-items: center; }
-
       section { padding: 60px 0; }
-
-      .download-card {
-        flex-direction: column;
-        text-align: center;
-        padding: 32px 24px;
-        gap: 24px;
-      }
-
-      .contact-grid {
-        grid-template-columns: 1fr;
-        gap: 32px;
-      }
-
-      .footer-inner {
-        flex-direction: column;
-        gap: 16px;
-        text-align: center;
-      }
+      .download-card { flex-direction: column; text-align: center; padding: 32px 24px; gap: 24px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+      .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
     }
 
-    /* Hamburger for mobile */
     .nav-hamburger {
       display: none;
       background: none;
@@ -626,9 +549,7 @@
       padding: 8px;
     }
 
-    @media (max-width: 700px) {
-      .nav-hamburger { display: block; }
-    }
+    @media (max-width: 700px) { .nav-hamburger { display: block; } }
   </style>
 </head>
 <body>
@@ -743,7 +664,7 @@
             How do I connect to my remote server?
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
           </button>
-          <div class="faq-answer"><div class="faq-answer-inner">Navigate to Settings → Connections and tap the "+" button. Enter your server details including hostname, port, and authentication method. Codeman supports SSH key authentication and password-based connections.</div></div>
+          <div class="faq-answer"><div class="faq-answer-inner">Navigate to Settings &rarr; Connections and tap the "+" button. Enter your server details including hostname, port, and authentication method. Codeman supports SSH key authentication and password-based connections.</div></div>
         </div>
 
         <div class="faq-item">
@@ -756,18 +677,18 @@
 
         <div class="faq-item">
           <button class="faq-question" onclick="toggleFaq(this)">
-            How do I report a bug?
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <div class="faq-answer"><div class="faq-answer-inner">Use the <a href="#contact">contact form below</a> and select "Bug Report" as the topic. Please include your iPad model, iPadOS version, and steps to reproduce the issue. Screenshots are incredibly helpful!</div></div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
             Are there any known limitations?
             <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
           </button>
           <div class="faq-answer"><div class="faq-answer-inner">Codeman uses WebKit for rendering. Most VS Code features and popular extensions work perfectly. Some extensions requiring advanced browser-specific features (like SharedArrayBuffer) may have limited functionality. Core editing, IntelliSense, terminal, Git, and most popular extensions work without issues.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            How do I report a bug?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">Use the <a href="#contact">contact form below</a> and select "Bug Report" as the topic. Please include your iPad model, iPadOS version, and steps to reproduce the issue. Screenshots are incredibly helpful!</div></div>
         </div>
 
         <div class="faq-item">
@@ -818,7 +739,6 @@
               <rect width="156" height="48" rx="8" fill="#ffffff" fill-opacity="0.1" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1"/>
               <text x="54" y="19" fill="#ffffff" font-size="9" font-family="'DM Sans', sans-serif" opacity="0.8">Download on the</text>
               <text x="54" y="35" fill="#ffffff" font-size="16" font-family="'DM Sans', sans-serif" font-weight="700">App Store</text>
-              <!-- Apple logo approximation -->
               <g transform="translate(18, 10)">
                 <path d="M18.3 8.5c-.1-2.5 2-3.7 2.1-3.8-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-2-.9-3.3-.8-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.6 1.3 10.1.8 1.2 1.9 2.6 3.2 2.5 1.3-.1 1.8-.8 3.3-.8s2 .8 3.3.8c1.4 0 2.3-1.2 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.8-4.1h-.3zM15.8 3.3c.7-.9 1.2-2 1.1-3.3-1 0-2.3.7-3 1.6-.6.8-1.2 2-1 3.1 1.2.1 2.3-.6 2.9-1.4z" fill="white"/>
               </g>
@@ -846,7 +766,7 @@
             </div>
             <div>
               <h4>Email</h4>
-              <p><a href="/cdn-cgi/l/email-protection#84f7f1f4f4ebf6f0c4e7ebe0e1e9e5eaaae5f4f4"><span class="__cf_email__" data-cfemail="54272124243b262014373b303139353a7a352424">[email&#160;protected]</span></a></p>
+              <p><a href="mailto:support&#64;thecodingman.net">support&#64;thecodingman.net</a></p>
             </div>
           </div>
 
@@ -856,7 +776,7 @@
             </div>
             <div>
               <h4>Response Time</h4>
-              <p>We typically respond within 24–48 hours on business days.</p>
+              <p>We typically respond within 24&ndash;48 hours on business days.</p>
             </div>
           </div>
 
@@ -866,7 +786,7 @@
             </div>
             <div>
               <h4>Version Info</h4>
-              <p>Include your app version (Settings → About) when reporting issues.</p>
+              <p>Include your app version (Settings &rarr; About) when reporting issues.</p>
             </div>
           </div>
         </div>
@@ -879,7 +799,7 @@
             </div>
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" id="email" placeholder="you@example.com" required>
+              <input type="email" id="email" placeholder="you&#64;example.com" required>
             </div>
             <div class="form-group">
               <label for="topic">Topic</label>
@@ -924,18 +844,14 @@
 
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  // FAQ toggle
+<script>
   function toggleFaq(btn) {
     const item = btn.parentElement;
     const wasOpen = item.classList.contains('open');
-    // Close all
     document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-    // Open clicked (if wasn't already open)
     if (!wasOpen) item.classList.add('open');
   }
 
-  // Form submit (placeholder — replace with real endpoint)
   function submitForm() {
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
@@ -947,7 +863,6 @@
     }
 
     // TODO: Replace with actual form submission (e.g., Formspree, Netlify Forms, your own API)
-    // Example with Formspree:
     // fetch('https://formspree.io/f/YOUR_FORM_ID', {
     //   method: 'POST',
     //   headers: { 'Content-Type': 'application/json' },
@@ -960,11 +875,20 @@
     document.getElementById('topic').value = '';
     document.getElementById('message').value = '';
 
-    setTimeout(() => {
+    setTimeout(function() {
       document.getElementById('formSuccess').classList.remove('show');
     }, 5000);
   }
 
-  // Scroll animations
-  const observer = new IntersectionObserver((entries) => {
-    entries.for
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+</script>
+</body>
+</html>
