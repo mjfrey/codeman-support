@@ -10,7 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     :root {
       --bg-deep: #080620;
       --bg-mid: #0f0c29;
@@ -29,9 +28,7 @@
       --radius: 16px;
       --max-w: 860px;
     }
-
     html { scroll-behavior: smooth; }
-
     body {
       font-family: var(--font-body);
       background: var(--bg-deep);
@@ -40,7 +37,6 @@
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
-
     body::before {
       content: '';
       position: fixed;
@@ -48,10 +44,8 @@
       background:
         radial-gradient(ellipse 600px 400px at 20% 10%, rgba(48, 43, 99, 0.5) 0%, transparent 70%),
         radial-gradient(ellipse 500px 500px at 80% 80%, rgba(0, 112, 255, 0.08) 0%, transparent 60%);
-      pointer-events: none;
-      z-index: 0;
+      pointer-events: none; z-index: 0;
     }
-
     body::after {
       content: '';
       position: fixed;
@@ -60,475 +54,101 @@
         linear-gradient(rgba(0,212,255,0.02) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0,212,255,0.02) 1px, transparent 1px);
       background-size: 64px 64px;
-      pointer-events: none;
-      z-index: 0;
+      pointer-events: none; z-index: 0;
     }
-
     .page { position: relative; z-index: 1; }
-
-    .container {
-      max-width: var(--max-w);
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
     section { padding: 80px 0; }
-
-    /* NAV */
     nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      padding: 16px 0;
+      position: sticky; top: 0; z-index: 100; padding: 16px 0;
       background: rgba(8, 6, 32, 0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
     }
-
-    nav .container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--text-primary);
-    }
-
-    .nav-logo-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 9px;
-      overflow: hidden;
-    }
-
+    nav .container { display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-primary); }
+    .nav-logo-icon { width: 36px; height: 36px; border-radius: 9px; overflow: hidden; }
     .nav-logo-icon svg { display: block; width: 100%; height: 100%; }
-
-    .nav-logo span {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 18px;
-      letter-spacing: 2px;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--text-secondary);
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.2s;
-      position: relative;
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: -4px;
-      left: 0; right: 0;
-      height: 1px;
-      background: var(--cyan);
-      transform: scaleX(0);
-      transition: transform 0.2s;
-    }
-
+    .nav-logo span { font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: 2px; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text-secondary); font-size: 14px; font-weight: 500; transition: color 0.2s; position: relative; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--cyan); transform: scaleX(0); transition: transform 0.2s; }
     .nav-links a:hover { color: var(--cyan); }
     .nav-links a:hover::after { transform: scaleX(1); }
-
-    /* HERO */
-    .hero {
-      text-align: center;
-      padding: 120px 0 80px;
-      position: relative;
-    }
-
+    .hero { text-align: center; padding: 120px 0 80px; position: relative; }
     .hero-mask {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 32px;
-      border-radius: 28px;
-      overflow: hidden;
+      width: 120px; height: 120px; margin: 0 auto 32px; border-radius: 28px; overflow: hidden;
       box-shadow: 0 0 60px rgba(0, 212, 255, 0.15), 0 20px 60px rgba(0, 0, 0, 0.4);
       animation: float 6s ease-in-out infinite;
     }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
     .hero-mask svg { display: block; width: 100%; height: 100%; }
-
-    .hero h1 {
-      font-family: var(--font-display);
-      font-size: clamp(32px, 5vw, 48px);
-      font-weight: 700;
-      letter-spacing: 4px;
-      margin-bottom: 16px;
-    }
-
-    .hero h1 .gradient-text {
-      background: linear-gradient(135deg, var(--cyan), var(--cyan-dim), #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero p {
-      color: var(--text-secondary);
-      font-size: 18px;
-      max-width: 520px;
-      margin: 0 auto 40px;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    /* BUTTONS */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 14px 28px;
-      border-radius: 12px;
-      font-family: var(--font-body);
-      font-size: 15px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.25s;
-      cursor: pointer;
-      border: none;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--cyan), var(--cyan-dim));
-      color: #000;
-      box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
-    }
-
-    .btn-primary:hover {
-      box-shadow: 0 0 40px rgba(0, 212, 255, 0.35);
-      transform: translateY(-2px);
-    }
-
-    .btn-ghost {
-      background: var(--bg-card);
-      color: var(--text-primary);
-      border: 1px solid var(--border);
-    }
-
-    .btn-ghost:hover {
-      border-color: var(--border-hover);
-      background: var(--bg-card-hover);
-    }
-
+    .hero h1 { font-family: var(--font-display); font-size: clamp(32px, 5vw, 48px); font-weight: 700; letter-spacing: 4px; margin-bottom: 16px; }
+    .hero h1 .gradient-text { background: linear-gradient(135deg, var(--cyan), var(--cyan-dim), #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { color: var(--text-secondary); font-size: 18px; max-width: 520px; margin: 0 auto 40px; }
+    .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 12px; font-family: var(--font-body); font-size: 15px; font-weight: 600; text-decoration: none; transition: all 0.25s; cursor: pointer; border: none; }
+    .btn-primary { background: linear-gradient(135deg, var(--cyan), var(--cyan-dim)); color: #000; box-shadow: 0 0 30px rgba(0, 212, 255, 0.2); }
+    .btn-primary:hover { box-shadow: 0 0 40px rgba(0, 212, 255, 0.35); transform: translateY(-2px); }
+    .btn-ghost { background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
     .btn svg { width: 18px; height: 18px; }
-
-    /* SECTION HEADERS */
-    .section-label {
-      font-family: var(--font-display);
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--cyan);
-      margin-bottom: 12px;
-      opacity: 0.7;
-    }
-
-    .section-title {
-      font-family: var(--font-display);
-      font-size: clamp(24px, 3.5vw, 32px);
-      font-weight: 700;
-      margin-bottom: 12px;
-      letter-spacing: 1px;
-    }
-
-    .section-desc {
-      color: var(--text-secondary);
-      font-size: 16px;
-      margin-bottom: 48px;
-      max-width: 540px;
-    }
-
-    /* FAQ */
-    .faq-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .faq-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      transition: border-color 0.25s;
-    }
-
+    .section-label { font-family: var(--font-display); font-size: 12px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--cyan); margin-bottom: 12px; opacity: 0.7; }
+    .section-title { font-family: var(--font-display); font-size: clamp(24px, 3.5vw, 32px); font-weight: 700; margin-bottom: 12px; letter-spacing: 1px; }
+    .section-desc { color: var(--text-secondary); font-size: 16px; margin-bottom: 48px; max-width: 540px; }
+    .faq-list { display: flex; flex-direction: column; gap: 12px; }
+    .faq-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color 0.25s; }
     .faq-item:hover, .faq-item.open { border-color: var(--border-hover); }
-
-    .faq-question {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      padding: 20px 24px;
-      background: none;
-      border: none;
-      color: var(--text-primary);
-      font-family: var(--font-body);
-      font-size: 16px;
-      font-weight: 600;
-      text-align: left;
-      cursor: pointer;
-      gap: 16px;
-    }
-
+    .faq-question { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 20px 24px; background: none; border: none; color: var(--text-primary); font-family: var(--font-body); font-size: 16px; font-weight: 600; text-align: left; cursor: pointer; gap: 16px; }
     .faq-question:hover { color: var(--cyan); }
-
-    .faq-chevron {
-      width: 20px;
-      height: 20px;
-      flex-shrink: 0;
-      transition: transform 0.3s;
-      color: var(--text-dim);
-    }
-
+    .faq-chevron { width: 20px; height: 20px; flex-shrink: 0; transition: transform 0.3s; color: var(--text-dim); }
     .faq-item.open .faq-chevron { transform: rotate(180deg); color: var(--cyan); }
-
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.35s ease, padding 0.35s ease;
-    }
-
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; }
     .faq-item.open .faq-answer { max-height: 300px; }
-
-    .faq-answer-inner {
-      padding: 0 24px 20px;
-      color: var(--text-secondary);
-      font-size: 15px;
-      line-height: 1.7;
-    }
-
+    .faq-answer-inner { padding: 0 24px 20px; color: var(--text-secondary); font-size: 15px; line-height: 1.7; }
     .faq-answer-inner a { color: var(--cyan); text-decoration: none; }
     .faq-answer-inner a:hover { text-decoration: underline; }
-
-    /* DOWNLOAD */
     #download { border-top: 1px solid var(--border); }
-
-    .download-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 48px;
-      display: flex;
-      align-items: center;
-      gap: 40px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .download-card::before {
-      content: '';
-      position: absolute;
-      top: -100px; right: -100px;
-      width: 300px; height: 300px;
-      background: radial-gradient(circle, rgba(0,212,255,0.06), transparent 70%);
-      pointer-events: none;
-    }
-
-    .download-icon {
-      width: 100px;
-      height: 100px;
-      border-radius: 24px;
-      overflow: hidden;
-      flex-shrink: 0;
-      box-shadow: 0 0 40px rgba(0, 212, 255, 0.12), 0 8px 32px rgba(0,0,0,0.3);
-    }
-
+    .download-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 48px; display: flex; align-items: center; gap: 40px; position: relative; overflow: hidden; }
+    .download-card::before { content: ''; position: absolute; top: -100px; right: -100px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,212,255,0.06), transparent 70%); pointer-events: none; }
+    .download-icon { width: 100px; height: 100px; border-radius: 24px; overflow: hidden; flex-shrink: 0; box-shadow: 0 0 40px rgba(0, 212, 255, 0.12), 0 8px 32px rgba(0,0,0,0.3); }
     .download-icon svg { display: block; width: 100%; height: 100%; }
-
     .download-info { flex: 1; }
-
-    .download-info h3 {
-      font-family: var(--font-display);
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .download-info p {
-      color: var(--text-secondary);
-      font-size: 15px;
-      margin-bottom: 20px;
-    }
-
-    .app-store-badge {
-      display: inline-block;
-      transition: transform 0.2s, opacity 0.2s;
-      opacity: 0.9;
-    }
-
+    .download-info h3 { font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+    .download-info p { color: var(--text-secondary); font-size: 15px; margin-bottom: 20px; }
+    .app-store-badge { display: inline-block; transition: transform 0.2s, opacity 0.2s; opacity: 0.9; }
     .app-store-badge:hover { transform: scale(1.03); opacity: 1; }
     .app-store-badge img { height: 48px; display: block; }
-
-    /* CONTACT */
     #contact { border-top: 1px solid var(--border); }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-    }
-
-    .contact-info-card {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    .contact-method {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-    }
-
-    .contact-method-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      color: var(--cyan);
-    }
-
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .contact-info-card { display: flex; flex-direction: column; gap: 24px; }
+    .contact-method { display: flex; align-items: flex-start; gap: 16px; }
+    .contact-method-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--cyan); }
     .contact-method-icon svg { width: 18px; height: 18px; }
-
     .contact-method h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
     .contact-method p { color: var(--text-secondary); font-size: 14px; }
     .contact-method a { color: var(--cyan); text-decoration: none; }
     .contact-method a:hover { text-decoration: underline; }
-
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
     .form-group { display: flex; flex-direction: column; gap: 6px; }
-
-    .form-group label {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      letter-spacing: 0.5px;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-      padding: 12px 16px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text-primary);
-      font-family: var(--font-body);
-      font-size: 15px;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      outline: none;
-      -webkit-appearance: none;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      border-color: var(--cyan);
-      box-shadow: 0 0 0 3px var(--cyan-glow);
-    }
-
-    .form-group input::placeholder,
-    .form-group textarea::placeholder { color: var(--text-dim); }
-
+    .form-group label { font-size: 13px; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.5px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; color: var(--text-primary); font-family: var(--font-body); font-size: 15px; transition: border-color 0.2s, box-shadow 0.2s; outline: none; -webkit-appearance: none; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px var(--cyan-glow); }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: var(--text-dim); }
     .form-group textarea { resize: vertical; min-height: 120px; }
-
-    .form-group select {
-      cursor: pointer;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b92a5' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-      padding-right: 36px;
-    }
-
+    .form-group select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b92a5' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
     .form-group select option { background: var(--bg-mid); color: var(--text-primary); }
-
     .form-submit { align-self: flex-start; margin-top: 4px; }
-
-    .form-success {
-      display: none;
-      padding: 16px 20px;
-      background: rgba(0, 212, 255, 0.08);
-      border: 1px solid rgba(0, 212, 255, 0.2);
-      border-radius: 12px;
-      color: var(--cyan);
-      font-size: 14px;
-      font-weight: 500;
-    }
-
+    .form-success { display: none; padding: 16px 20px; background: rgba(0, 212, 255, 0.08); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 12px; color: var(--cyan); font-size: 14px; font-weight: 500; }
     .form-success.show { display: flex; align-items: center; gap: 10px; }
-
-    /* FOOTER */
     footer { padding: 40px 0; border-top: 1px solid var(--border); }
-
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; }
     .footer-copy { color: var(--text-dim); font-size: 13px; }
-
     .footer-links { display: flex; gap: 24px; list-style: none; }
-
-    .footer-links a {
-      color: var(--text-dim);
-      font-size: 13px;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
+    .footer-links a { color: var(--text-dim); font-size: 13px; text-decoration: none; transition: color 0.2s; }
     .footer-links a:hover { color: var(--text-secondary); }
-
-    /* ANIMATIONS */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .fade-in.visible { opacity: 1; transform: translateY(0); }
-
-    /* MOBILE */
     @media (max-width: 700px) {
       .nav-links { display: none; }
       .hero { padding: 80px 0 60px; }
@@ -539,23 +159,12 @@
       .contact-grid { grid-template-columns: 1fr; gap: 32px; }
       .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
     }
-
-    .nav-hamburger {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--text-secondary);
-      cursor: pointer;
-      padding: 8px;
-    }
-
+    .nav-hamburger { display: none; background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 8px; }
     @media (max-width: 700px) { .nav-hamburger { display: block; } }
   </style>
 </head>
 <body>
 <div class="page">
-
-  <!-- NAV -->
   <nav>
     <div class="container">
       <a href="#" class="nav-logo">
@@ -589,7 +198,6 @@
     </div>
   </nav>
 
-  <!-- HERO -->
   <section class="hero">
     <div class="container">
       <div class="hero-mask">
@@ -633,7 +241,6 @@
     </div>
   </section>
 
-  <!-- FAQ -->
   <section id="faq">
     <div class="container">
       <div class="fade-in">
@@ -641,68 +248,39 @@
         <h2 class="section-title">Frequently Asked Questions</h2>
         <p class="section-desc">Quick answers to common questions about Codeman.</p>
       </div>
-
       <div class="faq-list fade-in">
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
-            What is Codeman?
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
+          <button class="faq-question" onclick="toggleFaq(this)">What is Codeman?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
           <div class="faq-answer"><div class="faq-answer-inner">Codeman is a powerful coding companion app for iPad that helps developers write, edit, and manage code on the go. With its intuitive interface and smart features, it's like having a superhero sidekick for your coding workflow.</div></div>
         </div>
-
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
-            What devices are supported?
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
+          <button class="faq-question" onclick="toggleFaq(this)">What devices are supported?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
           <div class="faq-answer"><div class="faq-answer-inner">Codeman is available for iPad running iPadOS 17.0 or later. We support all iPad models including iPad Pro, iPad Air, iPad mini, and standard iPad.</div></div>
         </div>
-
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
-            How do I connect to my remote server?
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <div class="faq-answer"><div class="faq-answer-inner">Navigate to Settings &rarr; Connections and tap the "+" button. Enter your server details including hostname, port, and authentication method. Codeman supports SSH key authentication and password-based connections.</div></div>
+          <button class="faq-question" onclick="toggleFaq(this)">How do I connect to my remote server?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer-inner">Navigate to Settings &#8594; Connections and tap the "+" button. Enter your server details including hostname, port, and authentication method. Codeman supports SSH key authentication and password-based connections.</div></div>
         </div>
-
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
-            Is my data secure?
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
+          <button class="faq-question" onclick="toggleFaq(this)">Is my data secure?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
           <div class="faq-answer"><div class="faq-answer-inner">Absolutely. All connections are encrypted using industry-standard TLS. SSH keys are stored securely in your device's keychain. We never access, collect, or transmit your code or personal data to our servers.</div></div>
         </div>
-
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
-            Are there any known limitations?
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
+          <button class="faq-question" onclick="toggleFaq(this)">Are there any known limitations?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
           <div class="faq-answer"><div class="faq-answer-inner">Codeman uses WebKit for rendering. Most VS Code features and popular extensions work perfectly. Some extensions requiring advanced browser-specific features (like SharedArrayBuffer) may have limited functionality. Core editing, IntelliSense, terminal, Git, and most popular extensions work without issues.</div></div>
         </div>
-
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
-            How do I report a bug?
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
+          <button class="faq-question" onclick="toggleFaq(this)">How do I report a bug?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
           <div class="faq-answer"><div class="faq-answer-inner">Use the <a href="#contact">contact form below</a> and select "Bug Report" as the topic. Please include your iPad model, iPadOS version, and steps to reproduce the issue. Screenshots are incredibly helpful!</div></div>
         </div>
-
         <div class="faq-item">
-          <button class="faq-question" onclick="toggleFaq(this)">
-            Can I request a feature?
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
+          <button class="faq-question" onclick="toggleFaq(this)">Can I request a feature?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
           <div class="faq-answer"><div class="faq-answer-inner">We love hearing from our users! Send us a message via the <a href="#contact">contact form</a> with "Feature Request" selected. We review every suggestion and prioritize based on community interest.</div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- DOWNLOAD -->
   <section id="download">
     <div class="container">
       <div class="fade-in">
@@ -710,7 +288,6 @@
         <h2 class="section-title">Get Codeman</h2>
         <p class="section-desc">Available on the App Store for iPad.</p>
       </div>
-
       <div class="download-card fade-in">
         <div class="download-icon">
           <svg viewBox="0 0 512 512">
@@ -732,8 +309,7 @@
         </div>
         <div class="download-info">
           <h3>Codeman for iPad</h3>
-          <p>Your coding superhero sidekick. Write code, connect to servers, and build amazing things — right from your iPad.</p>
-          <!-- Replace href with your actual App Store link -->
+          <p>Your coding superhero sidekick. Write code, connect to servers, and build amazing things &#8212; right from your iPad.</p>
           <a href="https://apps.apple.com/app/codeman/id000000000" class="app-store-badge" aria-label="Download on the App Store">
             <svg width="156" height="48" viewBox="0 0 156 48" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="156" height="48" rx="8" fill="#ffffff" fill-opacity="0.1" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1"/>
@@ -749,7 +325,6 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section id="contact">
     <div class="container">
       <div class="fade-in">
@@ -757,7 +332,6 @@
         <h2 class="section-title">Get in Touch</h2>
         <p class="section-desc">Have a question, bug report, or feature request? We'd love to hear from you.</p>
       </div>
-
       <div class="contact-grid fade-in">
         <div class="contact-info-card">
           <div class="contact-method">
@@ -766,31 +340,28 @@
             </div>
             <div>
               <h4>Email</h4>
-              <p><a href="mailto:support&#64;thecodingman.net">support&#64;thecodingman.net</a></p>
+              <p><a id="support-email" href="#">Loading...</a></p>
             </div>
           </div>
-
           <div class="contact-method">
             <div class="contact-method-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             </div>
             <div>
               <h4>Response Time</h4>
-              <p>We typically respond within 24&ndash;48 hours on business days.</p>
+              <p>We typically respond within 24&#8211;48 hours on business days.</p>
             </div>
           </div>
-
           <div class="contact-method">
             <div class="contact-method-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
             </div>
             <div>
               <h4>Version Info</h4>
-              <p>Include your app version (Settings &rarr; About) when reporting issues.</p>
+              <p>Include your app version (Settings &#8594; About) when reporting issues.</p>
             </div>
           </div>
         </div>
-
         <div>
           <div class="contact-form" id="contactForm">
             <div class="form-group">
@@ -829,11 +400,10 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
     <div class="container">
       <div class="footer-inner">
-        <p class="footer-copy">&copy; 2026 Codeman. All rights reserved.</p>
+        <p class="footer-copy">&#169; 2026 Codeman. All rights reserved.</p>
         <ul class="footer-links">
           <li><a href="#">Privacy Policy</a></li>
           <li><a href="#">Terms of Service</a></li>
@@ -841,53 +411,81 @@
       </div>
     </div>
   </footer>
-
 </div>
 
 <script>
+  // Build email dynamically to prevent Cloudflare email obfuscation
+  (function() {
+    var u = 'support';
+    var d = 'thecodingman.net';
+    var el = document.getElementById('support-email');
+    if (el) {
+      el.href = 'mai' + 'lto:' + u + String.fromCharCode(64) + d;
+      el.textContent = u + String.fromCharCode(64) + d;
+    }
+  })();
+
   function toggleFaq(btn) {
-    const item = btn.parentElement;
-    const wasOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    var item = btn.parentElement;
+    var wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
     if (!wasOpen) item.classList.add('open');
   }
 
   function submitForm() {
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const message = document.getElementById('message').value;
+    var name = document.getElementById('name').value;
+    var email = document.getElementById('email').value;
+    var topic = document.getElementById('topic').value;
+    var message = document.getElementById('message').value;
 
     if (!name || !email || !message) {
       alert('Please fill in all required fields.');
       return;
     }
 
-    // TODO: Replace with actual form submission (e.g., Formspree, Netlify Forms, your own API)
-    // fetch('https://formspree.io/f/YOUR_FORM_ID', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ name, email, topic: document.getElementById('topic').value, message })
-    // });
+    var btn = document.querySelector('.form-submit');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
 
-    document.getElementById('formSuccess').classList.add('show');
-    document.getElementById('name').value = '';
-    document.getElementById('email').value = '';
-    document.getElementById('topic').value = '';
-    document.getElementById('message').value = '';
-
-    setTimeout(function() {
-      document.getElementById('formSuccess').classList.remove('show');
-    }, 5000);
+    fetch('https://formspree.io/f/xnjbrgbo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        topic: topic,
+        message: message,
+        _subject: 'Codeman Support: ' + (topic || 'General')
+      })
+    })
+    .then(function(response) {
+      if (response.ok) {
+        document.getElementById('formSuccess').classList.add('show');
+        document.getElementById('name').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('topic').value = '';
+        document.getElementById('message').value = '';
+        setTimeout(function() {
+          document.getElementById('formSuccess').classList.remove('show');
+        }, 5000);
+      } else {
+        alert('Something went wrong. Please try emailing us directly.');
+      }
+    })
+    .catch(function() {
+      alert('Something went wrong. Please try emailing us directly.');
+    })
+    .finally(function() {
+      btn.disabled = false;
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message';
+    });
   }
 
   var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); }
     });
   }, { threshold: 0.1 });
-
   document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
 </script>
 </body>
