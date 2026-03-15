@@ -118,7 +118,7 @@
       box-shadow: 0 0 40px rgba(0, 212, 255, 0.12), 0 8px 32px rgba(0,0,0,0.3);
       animation: float 6s ease-in-out infinite;
     }
-    .app-card-icon svg { display: block; width: 100%; height: 100%; }
+    .app-card-icon img { display: block; width: 100%; height: 100%; }
     @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
     .app-card h2 { font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 8px; letter-spacing: 1px; }
     .app-card .app-subtitle { font-family: var(--font-display); font-size: 13px; color: var(--cyan); margin-bottom: 16px; opacity: 0.7; }
@@ -182,32 +182,16 @@
       <div class="apps-grid">
         <a href="./codeman/index.html" class="app-card fade-in">
           <div class="app-card-icon">
-            <svg viewBox="0 0 512 512">
-              <defs>
-                <linearGradient id="cm-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0f0c29"/><stop offset="50%" stop-color="#302b63"/><stop offset="100%" stop-color="#24243e"/></linearGradient>
-                <linearGradient id="cm-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00d4ff"/><stop offset="100%" stop-color="#0070ff"/></linearGradient>
-                <filter id="cm-glow"><feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-              </defs>
-              <rect width="512" height="512" fill="url(#cm-bg)"/>
-              <g transform="translate(256, 205)" filter="url(#cm-glow)">
-                <path d="M-155,-60 C-155,-60 -125,-82 -68,-82 C-22,-82 -12,-50 0,-50 C12,-50 22,-82 68,-82 C125,-82 155,-60 155,-60 L165,-12 C165,-12 155,65 105,76 C65,84 32,54 0,54 C-32,54 -65,84 -105,76 C-155,65 -165,-12 -165,-12 Z" fill="url(#cm-fill)" opacity="0.1"/>
-                <path d="M-155,-60 C-155,-60 -125,-82 -68,-82 C-22,-82 -12,-50 0,-50 C12,-50 22,-82 68,-82 C125,-82 155,-60 155,-60 L165,-12 C165,-12 155,65 105,76 C65,84 32,54 0,54 C-32,54 -65,84 -105,76 C-155,65 -165,-12 -165,-12 Z" fill="none" stroke="url(#cm-fill)" stroke-width="5" opacity="0.5"/>
-                <ellipse cx="-62" cy="-5" rx="48" ry="36" fill="#0f0c29" opacity="0.8"/>
-                <ellipse cx="62" cy="-5" rx="48" ry="36" fill="#0f0c29" opacity="0.8"/>
-                <path d="M-45,-22 L-82,0 L-45,22" fill="none" stroke="url(#cm-fill)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M45,-22 L82,0 L45,22" fill="none" stroke="url(#cm-fill)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
-              </g>
-              <text x="256" y="400" text-anchor="middle" fill="url(#cm-fill)" opacity="0.85" font-size="52" font-family="monospace" font-weight="bold" letter-spacing="8">CODEMAN</text>
-            </svg>
+            <img src="./codeman/codeman-dark.png" alt="CodeMan">
           </div>
           <h2>CodeMan</h2>
-          <div class="app-subtitle">Your Coding Superhero Sidekick</div>
-          <p class="app-desc">A powerful coding companion for iPad. Write code, connect to remote servers via SSH, and build amazing things&#8212;right from your iPad.</p>
+          <div class="app-subtitle">VS Code Browser for iOS &amp; Mac</div>
+          <p class="app-desc">Access your remote VS Code development environment from your iPhone, iPad, or Mac. Works out of the box with vscode.dev&#8212;no setup required.</p>
           <div class="app-tags">
+            <span class="app-tag">iPhone</span>
             <span class="app-tag">iPad</span>
-            <span class="app-tag">SSH</span>
-            <span class="app-tag">Code Editor</span>
-            <span class="app-tag">Terminal</span>
+            <span class="app-tag">Mac</span>
+            <span class="app-tag">VS Code</span>
           </div>
           <span class="card-link">
             Learn More
@@ -217,31 +201,7 @@
 
         <a href="./opencoderman/index.html" class="app-card fade-in" style="animation-delay: 0.1s;">
           <div class="app-card-icon" style="animation-delay: -3s;">
-            <svg viewBox="0 0 512 512">
-              <defs>
-                <linearGradient id="oc-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0a1628"/><stop offset="50%" stop-color="#112240"/><stop offset="100%" stop-color="#1a1a3e"/></linearGradient>
-                <linearGradient id="oc-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#64ffda"/><stop offset="100%" stop-color="#00b4d8"/></linearGradient>
-                <filter id="oc-glow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-              </defs>
-              <rect width="512" height="512" fill="url(#oc-bg)"/>
-              <g opacity="0.04" stroke="#64ffda" stroke-width="0.5">
-                <line x1="0" y1="64" x2="512" y2="64"/><line x1="0" y1="128" x2="512" y2="128"/><line x1="0" y1="192" x2="512" y2="192"/><line x1="0" y1="256" x2="512" y2="256"/><line x1="0" y1="320" x2="512" y2="320"/><line x1="0" y1="384" x2="512" y2="384"/><line x1="0" y1="448" x2="512" y2="448"/>
-                <line x1="64" y1="0" x2="64" y2="512"/><line x1="128" y1="0" x2="128" y2="512"/><line x1="192" y1="0" x2="192" y2="512"/><line x1="256" y1="0" x2="256" y2="512"/><line x1="320" y1="0" x2="320" y2="512"/><line x1="384" y1="0" x2="384" y2="512"/><line x1="448" y1="0" x2="448" y2="512"/>
-              </g>
-              <g transform="translate(256, 220)" filter="url(#oc-glow)">
-                <rect x="-120" y="-100" width="240" height="170" rx="16" fill="none" stroke="url(#oc-fill)" stroke-width="5" opacity="0.5"/>
-                <rect x="-120" y="-100" width="240" height="170" rx="16" fill="url(#oc-fill)" opacity="0.06"/>
-                <line x1="-120" y1="-68" x2="120" y2="-68" stroke="url(#oc-fill)" stroke-width="2" opacity="0.3"/>
-                <circle cx="-96" cy="-84" r="6" fill="#ff5f57" opacity="0.7"/>
-                <circle cx="-76" cy="-84" r="6" fill="#febc2e" opacity="0.7"/>
-                <circle cx="-56" cy="-84" r="6" fill="#28c840" opacity="0.7"/>
-                <text x="-80" y="-20" fill="url(#oc-fill)" opacity="0.8" font-size="28" font-family="monospace" font-weight="bold">&gt;_</text>
-                <rect x="-80" y="0" width="100" height="6" rx="3" fill="url(#oc-fill)" opacity="0.2"/>
-                <rect x="-80" y="16" width="70" height="6" rx="3" fill="url(#oc-fill)" opacity="0.15"/>
-                <rect x="-80" y="32" width="120" height="6" rx="3" fill="url(#oc-fill)" opacity="0.1"/>
-              </g>
-              <text x="256" y="410" text-anchor="middle" fill="url(#oc-fill)" opacity="0.8" font-size="36" font-family="monospace" font-weight="bold" letter-spacing="4">OPENCODERMAN</text>
-            </svg>
+            <img src="./opencoderman/icon-dark.png" alt="OpenCoderMan">
           </div>
           <h2>OpenCoderMan</h2>
           <div class="app-subtitle">Mobile Companion for OpenCode</div>
