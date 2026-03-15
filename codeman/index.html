@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodeMan — VS Code Browser for iPhone, iPad &amp; Mac</title>
+  <meta name="description" content="CodeMan brings your VS Code server to all your Apple devices. Access your remote VS Code development environment from iPhone, iPad, or Mac.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-deep: #080620;
+      --bg-mid: #0f0c29;
+      --bg-card: rgba(255,255,255,0.04);
+      --bg-card-hover: rgba(255,255,255,0.07);
+      --cyan: #00d4ff;
+      --cyan-dim: #0070ff;
+      --cyan-glow: rgba(0, 212, 255, 0.15);
+      --text-primary: #e8eaed;
+      --text-secondary: #8b92a5;
+      --text-dim: #555d73;
+      --border: rgba(255,255,255,0.06);
+      --border-hover: rgba(0, 212, 255, 0.2);
+      --font-display: 'JetBrains Mono', monospace;
+      --font-body: 'DM Sans', sans-serif;
+      --radius: 16px;
+      --max-w: 860px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(ellipse 600px 400px at 20% 10%, rgba(48, 43, 99, 0.5) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 500px at 80% 80%, rgba(0, 112, 255, 0.08) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.02) 1px, transparent 1px);
+      background-size: 64px 64px;
+      pointer-events: none; z-index: 0;
+    }
+    .page { position: relative; z-index: 1; }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+    section { padding: 80px 0; }
+    nav {
+      position: sticky; top: 0; z-index: 100; padding: 16px 0;
+      background: rgba(8, 6, 32, 0.85);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .container { display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-primary); }
+    .nav-logo-icon { width: 36px; height: 36px; border-radius: 9px; overflow: hidden; }
+    .nav-logo-icon svg, .nav-logo-icon img { display: block; width: 100%; height: 100%; border-radius: 9px; }
+    .nav-logo span { font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: 2px; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text-secondary); font-size: 14px; font-weight: 500; transition: color 0.2s; position: relative; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--cyan); transform: scaleX(0); transition: transform 0.2s; }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .hero { text-align: center; padding: 120px 0 80px; position: relative; }
+    .hero-mask {
+      width: 120px; height: 120px; margin: 0 auto 32px; border-radius: 28px; overflow: hidden;
+      box-shadow: 0 0 60px rgba(0, 212, 255, 0.15), 0 20px 60px rgba(0, 0, 0, 0.4);
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    .hero-mask svg, .hero-mask img { display: block; width: 100%; height: 100%; border-radius: 28px; }
+    .hero h1 { font-family: var(--font-display); font-size: clamp(28px, 5vw, 44px); font-weight: 700; letter-spacing: 3px; margin-bottom: 16px; }
+    .hero h1 .gradient-text { background: linear-gradient(135deg, var(--cyan), var(--cyan-dim), #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { color: var(--text-secondary); font-size: 18px; max-width: 540px; margin: 0 auto 40px; }
+    .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 12px; font-family: var(--font-body); font-size: 15px; font-weight: 600; text-decoration: none; transition: all 0.25s; cursor: pointer; border: none; }
+    .btn-primary { background: linear-gradient(135deg, var(--cyan), var(--cyan-dim)); color: #000; box-shadow: 0 0 30px rgba(0, 212, 255, 0.2); }
+    .btn-primary:hover { box-shadow: 0 0 40px rgba(0, 212, 255, 0.35); transform: translateY(-2px); }
+    .btn-ghost { background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
+    .btn svg { width: 18px; height: 18px; }
+    .section-label { font-family: var(--font-display); font-size: 12px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--cyan); margin-bottom: 12px; opacity: 0.7; }
+    .section-title { font-family: var(--font-display); font-size: clamp(24px, 3.5vw, 32px); font-weight: 700; margin-bottom: 12px; letter-spacing: 1px; }
+    .section-desc { color: var(--text-secondary); font-size: 16px; margin-bottom: 48px; max-width: 540px; }
+    .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: border-color 0.25s;
+    }
+    .feature-card:hover { border-color: var(--border-hover); }
+    .feature-card h3 { font-family: var(--font-display); font-size: 14px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+    .feature-card h3 svg { width: 18px; height: 18px; color: var(--cyan); flex-shrink: 0; }
+    .feature-card p { color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+    .faq-list { display: flex; flex-direction: column; gap: 12px; }
+    .faq-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color 0.25s; }
+    .faq-item:hover, .faq-item.open { border-color: var(--border-hover); }
+    .faq-question { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 20px 24px; background: none; border: none; color: var(--text-primary); font-family: var(--font-body); font-size: 16px; font-weight: 600; text-align: left; cursor: pointer; gap: 16px; }
+    .faq-question:hover { color: var(--cyan); }
+    .faq-chevron { width: 20px; height: 20px; flex-shrink: 0; transition: transform 0.3s; color: var(--text-dim); }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); color: var(--cyan); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; }
+    .faq-item.open .faq-answer { max-height: 300px; }
+    .faq-answer-inner { padding: 0 24px 20px; color: var(--text-secondary); font-size: 15px; line-height: 1.7; }
+    .faq-answer-inner a { color: var(--cyan); text-decoration: none; }
+    .faq-answer-inner a:hover { text-decoration: underline; }
+    #download { border-top: 1px solid var(--border); }
+    .download-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 48px; display: flex; align-items: center; gap: 40px; position: relative; overflow: hidden; }
+    .download-card::before { content: ''; position: absolute; top: -100px; right: -100px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,212,255,0.06), transparent 70%); pointer-events: none; }
+    .download-icon { width: 100px; height: 100px; border-radius: 24px; overflow: hidden; flex-shrink: 0; box-shadow: 0 0 40px rgba(0, 212, 255, 0.12), 0 8px 32px rgba(0,0,0,0.3); }
+    .download-icon svg, .download-icon img { display: block; width: 100%; height: 100%; border-radius: 24px; }
+    .download-info { flex: 1; }
+    .download-info h3 { font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+    .download-info p { color: var(--text-secondary); font-size: 15px; margin-bottom: 20px; }
+    .app-store-badge { display: inline-block; transition: transform 0.2s, opacity 0.2s; opacity: 0.9; }
+    .app-store-badge:hover { transform: scale(1.03); opacity: 1; }
+    #contact { border-top: 1px solid var(--border); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .contact-info-card { display: flex; flex-direction: column; gap: 24px; }
+    .contact-method { display: flex; align-items: flex-start; gap: 16px; }
+    .contact-method-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--cyan); }
+    .contact-method-icon svg { width: 18px; height: 18px; }
+    .contact-method h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .contact-method p { color: var(--text-secondary); font-size: 14px; }
+    .contact-method a { color: var(--cyan); text-decoration: none; }
+    .contact-method a:hover { text-decoration: underline; }
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 13px; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.5px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; color: var(--text-primary); font-family: var(--font-body); font-size: 15px; transition: border-color 0.2s, box-shadow 0.2s; outline: none; -webkit-appearance: none; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px var(--cyan-glow); }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: var(--text-dim); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-group select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b92a5' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+    .form-group select option { background: var(--bg-mid); color: var(--text-primary); }
+    .form-submit { align-self: flex-start; margin-top: 4px; }
+    .form-success { display: none; padding: 16px 20px; background: rgba(0, 212, 255, 0.08); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 12px; color: var(--cyan); font-size: 14px; font-weight: 500; }
+    .form-success.show { display: flex; align-items: center; gap: 10px; }
+    footer { padding: 40px 0; border-top: 1px solid var(--border); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { color: var(--text-dim); font-size: 13px; }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { color: var(--text-dim); font-size: 13px; text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text-secondary); }
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .nav-hamburger { display: none; background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 8px; }
+    @media (max-width: 700px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: block; }
+      .hero { padding: 80px 0 60px; }
+      .hero-mask { width: 88px; height: 88px; border-radius: 22px; }
+      .hero-actions { flex-direction: column; align-items: center; }
+      section { padding: 60px 0; }
+      .features-grid { grid-template-columns: 1fr; }
+      .download-card { flex-direction: column; text-align: center; padding: 32px 24px; gap: 24px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+      .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <nav>
+    <div class="container">
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-icon">
+          <img src="codeman-dark.png" alt="CodeMan" width="36" height="36">
+        </div>
+        <span>CODEMAN</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#download">Download</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="../index.html">All Apps</a></li>
+      </ul>
+      <button class="nav-hamburger" onclick="document.querySelector('.nav-links').classList.toggle('show')" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-mask">
+        <img src="codeman-dark.png" alt="CodeMan" width="120" height="120">
+      </div>
+      <h1><span class="gradient-text">CODEMAN</span></h1>
+      <p>Your VS Code browser for iPhone, iPad, and Mac. Access your remote development environment from any Apple device.</p>
+      <div class="hero-actions">
+        <a href="#features" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Explore Features
+        </a>
+        <a href="#download" class="btn btn-ghost">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="container">
+      <div class="fade-in">
+        <p class="section-label">// FEATURES</p>
+        <h2 class="section-title">Everything You Need</h2>
+        <p class="section-desc">A universal VS Code client optimized for every Apple device&#8212;one app, all platforms.</p>
+      </div>
+      <div class="features-grid fade-in">
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Universal App
+          </h3>
+          <p>One app for iPhone, iPad, and Mac. Buy once, use everywhere. Optimized UI for each platform with adaptive layouts.</p>
+        </div>
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16 18l2-2-2-2"/><path d="M8 18l-2-2 2-2"/><path d="M14 4l-4 16"/></svg>
+            VS Code Integration
+          </h3>
+          <p>Works out of the box with vscode.dev&#8212;no setup needed. Connect to any custom VS Code server with full desktop mode and chromeless browsing.</p>
+        </div>
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            Desktop-Class Keyboard
+          </h3>
+          <p>All VS Code keyboard shortcuts work perfectly. Command key passthrough, system shortcuts, and full external keyboard support on iPad.</p>
+        </div>
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            iPhone Optimized
+          </h3>
+          <p>Touch-friendly interface with quick-access toolbar. Portrait and landscape support. Works great with external keyboards for mobile coding.</p>
+        </div>
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><path d="M2 17h20"/></svg>
+            iPad Multi-Window
+          </h3>
+          <p>Work on multiple projects with multi-window support. Split View and Slide Over compatible. Perfect for iPad + Magic Keyboard.</p>
+        </div>
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            Native Mac
+          </h3>
+          <p>Native Mac window management with resizable windows and sensible defaults. Full menu bar integration and all keyboard shortcuts work as expected.</p>
+        </div>
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+            Developer Tools
+          </h3>
+          <p>Built-in debug console with real-time logging. Detailed error messages, connection monitoring, and exportable logs for troubleshooting.</p>
+        </div>
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            Security &amp; Privacy
+          </h3>
+          <p>HTTPS connections with self-signed certificate support. No tracking, no analytics, no data collection. All settings stored locally on your device.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="container">
+      <div class="fade-in">
+        <p class="section-label">// FAQ</p>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-desc">Quick answers to common questions about CodeMan.</p>
+      </div>
+      <div class="faq-list fade-in">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">What is CodeMan?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer-inner">CodeMan is a VS Code browser that brings your remote development environment to all your Apple devices. It works out of the box with vscode.dev and connects to any custom VS Code server, code-server instance, or GitHub Codespace.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">What devices are supported?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer-inner">CodeMan is a universal app for iPhone (iOS 17.0+), iPad (iPadOS 17.0+), and Mac (macOS 14.0+). Buy once and use on all your Apple devices. Each platform has an optimized UI.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">Do I need to set up a server?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer-inner">No! CodeMan works immediately with vscode.dev&#8212;no setup required. If you want to connect to your own server, you can use code-server, VS Code&#8217;s built-in server (<code>code --serve-web</code>), or any compatible VS Code server over HTTP/HTTPS.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">Do keyboard shortcuts work?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes! All VS Code keyboard shortcuts work perfectly. Command key input is passed through directly to VS Code. System-level shortcuts like Cmd+, (Settings) and Cmd+R (Reload) are handled by the app. External keyboards are fully supported on iPad.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">Is my data secure?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer-inner">Absolutely. Connections are made directly from your device to your server via HTTPS. We don&#8217;t collect, store, or transmit any personal data. There are no analytics or tracking services. All settings are stored locally on your device.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">Are there any known limitations?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer-inner">CodeMan uses WebKit for rendering. Most VS Code features and popular extensions work perfectly. Some extensions requiring advanced browser-specific features (like SharedArrayBuffer) may have limited functionality. Core editing, IntelliSense, terminal, Git, and most popular extensions work without issues.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">Can I use self-signed certificates?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes. Enable &#8220;Allow Self-Signed Certificates&#8221; in Settings to connect to local servers using self-signed certificates.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">How do I report a bug?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer-inner">Use the <a href="#contact">contact form below</a> and select &#8220;Bug Report&#8221; as the topic. Please include your device model, OS version, and steps to reproduce. You can export debug logs from the app&#8217;s built-in console to help us troubleshoot.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="download">
+    <div class="container">
+      <div class="fade-in">
+        <p class="section-label">// DOWNLOAD</p>
+        <h2 class="section-title">Get CodeMan</h2>
+        <p class="section-desc">Available on the App Store for iPhone, iPad, and Mac.</p>
+      </div>
+      <div class="download-card fade-in">
+        <div class="download-icon">
+          <img src="codeman-dark.png" alt="CodeMan" width="100" height="100">
+        </div>
+        <div class="download-info">
+          <h3>CodeMan for iOS &amp; Mac</h3>
+          <p>Your VS Code browser for all Apple devices. Works instantly with vscode.dev or connect to your own server. One purchase, all platforms.</p>
+          <a href="https://apps.apple.com/app/codeman/id000000000" class="app-store-badge" aria-label="Download on the App Store">
+            <svg width="156" height="48" viewBox="0 0 156 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="156" height="48" rx="8" fill="#ffffff" fill-opacity="0.1" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1"/>
+              <text x="54" y="19" fill="#ffffff" font-size="9" font-family="'DM Sans', sans-serif" opacity="0.8">Download on the</text>
+              <text x="54" y="35" fill="#ffffff" font-size="16" font-family="'DM Sans', sans-serif" font-weight="700">App Store</text>
+              <g transform="translate(18, 10)">
+                <path d="M18.3 8.5c-.1-2.5 2-3.7 2.1-3.8-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-2-.9-3.3-.8-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.6 1.3 10.1.8 1.2 1.9 2.6 3.2 2.5 1.3-.1 1.8-.8 3.3-.8s2 .8 3.3.8c1.4 0 2.3-1.2 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.8-4.1h-.3zM15.8 3.3c.7-.9 1.2-2 1.1-3.3-1 0-2.3.7-3 1.6-.6.8-1.2 2-1 3.1 1.2.1 2.3-.6 2.9-1.4z" fill="white"/>
+              </g>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="container">
+      <div class="fade-in">
+        <p class="section-label">// CONTACT</p>
+        <h2 class="section-title">Get in Touch</h2>
+        <p class="section-desc">Have a question, bug report, or feature request? We&#8217;d love to hear from you.</p>
+      </div>
+      <div class="contact-grid fade-in">
+        <div class="contact-info-card">
+          <div class="contact-method">
+            <div class="contact-method-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 8L2 4"/></svg>
+            </div>
+            <div>
+              <h4>Email</h4>
+              <p><a id="support-email" href="#">Loading...</a></p>
+            </div>
+          </div>
+          <div class="contact-method">
+            <div class="contact-method-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div>
+              <h4>Response Time</h4>
+              <p>We typically respond within 24&#8211;48 hours on business days.</p>
+            </div>
+          </div>
+          <div class="contact-method">
+            <div class="contact-method-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <h4>Version Info</h4>
+              <p>Include your app version (Settings &#8594; About) when reporting issues.</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="contact-form" id="contactForm">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" placeholder="Your name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" placeholder="you&#64;example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="topic">Topic</label>
+              <select id="topic">
+                <option value="">Select a topic...</option>
+                <option value="general">General Question</option>
+                <option value="bug">Bug Report</option>
+                <option value="feature">Feature Request</option>
+                <option value="connection">Connection Issue</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" placeholder="Describe your question or issue..." required></textarea>
+            </div>
+            <button class="btn btn-primary form-submit" onclick="submitForm()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              Send Message
+            </button>
+            <div class="form-success" id="formSuccess">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+              Message sent! We&#8217;ll get back to you soon.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <p class="footer-copy">&#169; 2026 The Coding Man. All rights reserved.</p>
+        <ul class="footer-links">
+          <li><a href="../privacy/index.html">Privacy Policy</a></li>
+          <li><a href="../index.html">All Apps</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  (function() {
+    var u = 'support';
+    var d = 'thecodingman.net';
+    var el = document.getElementById('support-email');
+    if (el) {
+      el.href = 'mai' + 'lto:' + u + String.fromCharCode(64) + d;
+      el.textContent = u + String.fromCharCode(64) + d;
+    }
+  })();
+
+  function toggleFaq(btn) {
+    var item = btn.parentElement;
+    var wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
+    if (!wasOpen) item.classList.add('open');
+  }
+
+  function submitForm() {
+    var name = document.getElementById('name').value;
+    var email = document.getElementById('email').value;
+    var topic = document.getElementById('topic').value;
+    var message = document.getElementById('message').value;
+
+    if (!name || !email || !message) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    var btn = document.querySelector('.form-submit');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    fetch('https://formspree.io/f/xnjbrgbo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        topic: topic,
+        message: message,
+        _subject: 'CodeMan Support: ' + (topic || 'General')
+      })
+    })
+    .then(function(response) {
+      if (response.ok) {
+        document.getElementById('formSuccess').classList.add('show');
+        document.getElementById('name').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('topic').value = '';
+        document.getElementById('message').value = '';
+        setTimeout(function() {
+          document.getElementById('formSuccess').classList.remove('show');
+        }, 5000);
+      } else {
+        alert('Something went wrong. Please try emailing us directly.');
+      }
+    })
+    .catch(function() {
+      alert('Something went wrong. Please try emailing us directly.');
+    })
+    .finally(function() {
+      btn.disabled = false;
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message';
+    });
+  }
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+</script>
+</body>
+</html>
