@@ -1,13 +1,11 @@
 {
-  "version": "0.3",
-  "build": 3,
+  "version": "0.4",
+  "build": 4,
   "minimumSystemVersion": "26.0",
-  "url": "https://thecodingman.net/screenman/ScreenMan-Host-0.3.pkg",
-  "sha256": "7152568050626a069806e6ed99b4abde166c48df9e02a974f18fc1e2c7158972",
+  "url": "https://thecodingman.net/screenman/ScreenMan-Host-0.4.pkg",
+  "sha256": "58b17cacadcf50df86760cf75ab792dbe3c0cd7f0e9c1b75229a3291c0ab7024",
   "notes": [
-    "Wakes the Mac's displays reliably before streaming, so the picture no longer freezes after the screen sleeps",
-    "Restarts screen capture if macOS stops it during a session",
-    "The menu bar icon always comes back after a restart",
-    "Check for Updates in the menu bar"
+    "Fit Mac to This iPhone changes your Mac's display much less often: reconnecting keeps the same layout, and the Mac's screen goes back to normal only once it's awake",
+    "Fixes a crash in the background service"
   ]
 }
