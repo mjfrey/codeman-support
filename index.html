@@ -80,6 +80,8 @@
     .section-label { font-family: var(--font-display); font-size: 12px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--cyan); margin-bottom: 12px; opacity: 0.7; }
     .apps-section { padding: 24px 0 80px; }
     .apps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .apps-grid > .app-card:nth-child(3):last-child { grid-column: 1 / -1; max-width: calc(50% - 16px); justify-self: center; }
+    @media (max-width: 700px) { .apps-grid > .app-card:nth-child(3):last-child { max-width: none; } }
     .app-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -211,6 +213,25 @@
             <span class="app-tag">iPad</span>
             <span class="app-tag">AI Coding</span>
             <span class="app-tag">OpenCode</span>
+          </div>
+          <span class="card-link">
+            Learn More
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+
+        <a href="./screenman/index.html" class="app-card fade-in" style="animation-delay: 0.2s;">
+          <div class="app-card-icon" style="animation-delay: -1.5s;">
+            <img src="./screenman/icon-dark.png" alt="ScreenMan">
+          </div>
+          <h2>ScreenMan</h2>
+          <div class="app-subtitle">Your Mac on iPhone &amp; iPad</div>
+          <p class="app-desc">See and control your Mac from your iPhone or iPad: fast and sharp, with sound, touch or trackpad, and a full Mac keyboard. Private, with no account and no server.</p>
+          <div class="app-tags">
+            <span class="app-tag">iPhone</span>
+            <span class="app-tag">iPad</span>
+            <span class="app-tag">Mac</span>
+            <span class="app-tag">Remote Control</span>
           </div>
           <span class="card-link">
             Learn More

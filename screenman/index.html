@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScreenMan — See and Control Your Mac from iPhone &amp; iPad</title>
+  <meta name="description" content="ScreenMan shows your Mac's screen on your iPhone or iPad and lets you control it: fast, sharp, with sound, and private, with no account and no server.">
+  <meta property="og:title" content="ScreenMan">
+  <meta property="og:description" content="See and control your Mac from your iPhone or iPad.">
+  <meta property="og:image" content="https://thecodingman.net/screenman/icon-dark.png">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-deep: #080620;
+      --bg-mid: #0f0c29;
+      --bg-card: rgba(255,255,255,0.04);
+      --bg-card-hover: rgba(255,255,255,0.07);
+      --cyan: #00d4ff;
+      --cyan-dim: #0070ff;
+      --cyan-glow: rgba(0, 212, 255, 0.15);
+      --text-primary: #e8eaed;
+      --text-secondary: #8b92a5;
+      --text-dim: #555d73;
+      --border: rgba(255,255,255,0.06);
+      --border-hover: rgba(0, 212, 255, 0.2);
+      --font-display: 'JetBrains Mono', monospace;
+      --font-body: 'DM Sans', sans-serif;
+      --radius: 16px;
+      --max-w: 860px;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(ellipse 600px 400px at 20% 10%, rgba(48, 43, 99, 0.5) 0%, transparent 70%),
+        radial-gradient(ellipse 500px 500px at 80% 80%, rgba(0, 112, 255, 0.08) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.02) 1px, transparent 1px);
+      background-size: 64px 64px;
+      pointer-events: none; z-index: 0;
+    }
+    .page { position: relative; z-index: 1; }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+    section { padding: 80px 0; }
+    nav {
+      position: sticky; top: 0; z-index: 100; padding: 16px 0;
+      background: rgba(8, 6, 32, 0.85);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .container { display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--text-primary); }
+    .nav-logo-icon { width: 36px; height: 36px; border-radius: 9px; overflow: hidden; }
+    .nav-logo-icon svg, .nav-logo-icon img { display: block; width: 100%; height: 100%; border-radius: 9px; }
+    .nav-logo span { font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: 2px; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text-secondary); font-size: 14px; font-weight: 500; transition: color 0.2s; position: relative; }
+    .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--cyan); transform: scaleX(0); transition: transform 0.2s; }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .hero { text-align: center; padding: 120px 0 80px; position: relative; }
+    .hero-mask {
+      width: 120px; height: 120px; margin: 0 auto 32px; border-radius: 28px; overflow: hidden;
+      box-shadow: 0 0 60px rgba(0, 212, 255, 0.15), 0 20px 60px rgba(0, 0, 0, 0.4);
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    .hero-mask svg, .hero-mask img { display: block; width: 100%; height: 100%; border-radius: 28px; }
+    .hero h1 { font-family: var(--font-display); font-size: clamp(28px, 5vw, 44px); font-weight: 700; letter-spacing: 3px; margin-bottom: 16px; }
+    .hero h1 .gradient-text { background: linear-gradient(135deg, var(--cyan), var(--cyan-dim), #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { color: var(--text-secondary); font-size: 18px; max-width: 540px; margin: 0 auto 40px; }
+    .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 12px; font-family: var(--font-body); font-size: 15px; font-weight: 600; text-decoration: none; transition: all 0.25s; cursor: pointer; border: none; }
+    .btn-primary { background: linear-gradient(135deg, var(--cyan), var(--cyan-dim)); color: #000; box-shadow: 0 0 30px rgba(0, 212, 255, 0.2); }
+    .btn-primary:hover { box-shadow: 0 0 40px rgba(0, 212, 255, 0.35); transform: translateY(-2px); }
+    .btn-ghost { background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--border-hover); background: var(--bg-card-hover); }
+    .btn svg { width: 18px; height: 18px; }
+    .section-label { font-family: var(--font-display); font-size: 12px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--cyan); margin-bottom: 12px; opacity: 0.7; }
+    .section-title { font-family: var(--font-display); font-size: clamp(24px, 3.5vw, 32px); font-weight: 700; margin-bottom: 12px; letter-spacing: 1px; }
+    .section-desc { color: var(--text-secondary); font-size: 16px; margin-bottom: 48px; max-width: 540px; }
+    .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      transition: border-color 0.25s;
+    }
+    .feature-card:hover { border-color: var(--border-hover); }
+    .feature-card h3 { font-family: var(--font-display); font-size: 14px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+    .feature-card h3 svg { width: 18px; height: 18px; color: var(--cyan); flex-shrink: 0; }
+    .feature-card p { color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+    .faq-list { display: flex; flex-direction: column; gap: 12px; }
+    .faq-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: border-color 0.25s; }
+    .faq-item:hover, .faq-item.open { border-color: var(--border-hover); }
+    .faq-question { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 20px 24px; background: none; border: none; color: var(--text-primary); font-family: var(--font-body); font-size: 16px; font-weight: 600; text-align: left; cursor: pointer; gap: 16px; }
+    .faq-question:hover { color: var(--cyan); }
+    .faq-chevron { width: 20px; height: 20px; flex-shrink: 0; transition: transform 0.3s; color: var(--text-dim); }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); color: var(--cyan); }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; }
+    .faq-item.open .faq-answer { max-height: 300px; }
+    .faq-answer-inner { padding: 0 24px 20px; color: var(--text-secondary); font-size: 15px; line-height: 1.7; }
+    .faq-answer-inner a { color: var(--cyan); text-decoration: none; }
+    .faq-answer-inner a:hover { text-decoration: underline; }
+    #download { border-top: 1px solid var(--border); }
+    .download-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 48px; display: flex; align-items: center; gap: 40px; position: relative; overflow: hidden; }
+    .download-card::before { content: ''; position: absolute; top: -100px; right: -100px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,212,255,0.06), transparent 70%); pointer-events: none; }
+    .download-icon { width: 100px; height: 100px; border-radius: 24px; overflow: hidden; flex-shrink: 0; box-shadow: 0 0 40px rgba(0, 212, 255, 0.12), 0 8px 32px rgba(0,0,0,0.3); }
+    .download-icon svg, .download-icon img { display: block; width: 100%; height: 100%; border-radius: 24px; }
+    .download-info { flex: 1; }
+    .download-info h3 { font-family: var(--font-display); font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+    .download-info p { color: var(--text-secondary); font-size: 15px; margin-bottom: 20px; }
+    .app-store-badge { display: inline-block; transition: transform 0.2s, opacity 0.2s; opacity: 0.9; }
+    .app-store-badge:hover { transform: scale(1.03); opacity: 1; }
+    #contact { border-top: 1px solid var(--border); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .contact-info-card { display: flex; flex-direction: column; gap: 24px; }
+    .contact-method { display: flex; align-items: flex-start; gap: 16px; }
+    .contact-method-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--cyan); }
+    .contact-method-icon svg { width: 18px; height: 18px; }
+    .contact-method h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .contact-method p { color: var(--text-secondary); font-size: 14px; }
+    .contact-method a { color: var(--cyan); text-decoration: none; }
+    .contact-method a:hover { text-decoration: underline; }
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 13px; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.5px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; color: var(--text-primary); font-family: var(--font-body); font-size: 15px; transition: border-color 0.2s, box-shadow 0.2s; outline: none; -webkit-appearance: none; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px var(--cyan-glow); }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: var(--text-dim); }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-group select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b92a5' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+    .form-group select option { background: var(--bg-mid); color: var(--text-primary); }
+    .form-submit { align-self: flex-start; margin-top: 4px; }
+    .form-success { display: none; padding: 16px 20px; background: rgba(0, 212, 255, 0.08); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 12px; color: var(--cyan); font-size: 14px; font-weight: 500; }
+    .form-success.show { display: flex; align-items: center; gap: 10px; }
+    footer { padding: 40px 0; border-top: 1px solid var(--border); }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { color: var(--text-dim); font-size: 13px; }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { color: var(--text-dim); font-size: 13px; text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text-secondary); }
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .nav-hamburger { display: none; background: none; border: none; color: var(--text-secondary); cursor: pointer; padding: 8px; }
+    @media (max-width: 700px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: block; }
+      .hero { padding: 80px 0 60px; }
+      .hero-mask { width: 88px; height: 88px; border-radius: 22px; }
+      .hero-actions { flex-direction: column; align-items: center; }
+      section { padding: 60px 0; }
+      .features-grid { grid-template-columns: 1fr; }
+      .download-card { flex-direction: column; text-align: center; padding: 32px 24px; gap: 24px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+      .footer-inner { flex-direction: column; gap: 16px; text-align: center; }
+    }
+
+    /* ScreenMan: setup steps and the Mac + iPhone download pair */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .step { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 24px; }
+    .step-num { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; margin-bottom: 16px;
+      font-family: var(--font-display); font-weight: 700; font-size: 14px; color: #000;
+      background: linear-gradient(135deg, var(--cyan), var(--cyan-dim)); box-shadow: 0 0 20px rgba(0, 212, 255, 0.25); }
+    .step h3 { font-family: var(--font-display); font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .step p { color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+    .step a { color: var(--cyan); text-decoration: none; }
+    .download-pair { display: grid; gap: 20px; }
+    .app-store-badge.soon { display: inline-block; opacity: 0.75; cursor: default; }
+    @media (max-width: 700px) {
+      .steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <nav>
+    <div class="container">
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-icon">
+          <img src="icon-dark.png" alt="ScreenMan" width="36" height="36">
+        </div>
+        <span>SCREENMAN</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#setup">Setup</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#download">Download</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="../index.html">All Apps</a></li>
+      </ul>
+      <button class="nav-hamburger" onclick="document.querySelector('.nav-links').classList.toggle('show')" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-mask">
+        <img src="icon-dark.png" alt="ScreenMan" width="120" height="120">
+      </div>
+      <h1><span class="gradient-text">SCREENMAN</span></h1>
+      <p>See and control your Mac from your iPhone or iPad. Fast, sharp, and private&#8212;your devices connect directly, with no account and no server in between.</p>
+      <div class="hero-actions">
+        <a href="#download" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download for Mac
+        </a>
+        <a href="#features" class="btn btn-ghost">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Explore Features
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="container">
+      <div class="fade-in">
+        <p class="section-label">// FEATURES</p>
+        <h2 class="section-title">Your Mac, in Your Hand</h2>
+        <p class="section-desc">Built for speed and detail, on your network or away from home.</p>
+      </div>
+      <div class="features-grid fade-in">
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Fast and Sharp
+          </h3>
+          <p>Your Mac streams its screen as HEVC video, in full 4:4:4 color on devices that decode it in hardware, so small text stays crisp and the pointer keeps up with your finger.</p>
+        </div>
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+            Zoom Into Detail
+          </h3>
+          <p>Pinch to zoom and your Mac sends just the part you&#8217;re looking at, at full resolution. Two fingers pan the view; the view can follow the pointer.</p>
+        </div>
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 11V6a2 2 0 00-4 0v5"/><path d="M14 10V4a2 2 0 00-4 0v6"/><path d="M10 10.5V6a2 2 0 00-4 0v8"/><path d="M18 8a2 2 0 014 0v6a8 8 0 01-8 8h-2c-2.8 0-4.5-.9-5.9-2.4L3.3 16.4a2 2 0 013-2.6L8 15"/></svg>
+            Touch or Trackpad
+          </h3>
+          <p>Touch the Mac&#8217;s screen directly&#8212;tap to click, swipe to scroll, hold and move to drag&#8212;or turn your screen into a trackpad with a pointer, like on a MacBook.</p>
+        </div>
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M7 16h10"/></svg>
+            A Laptop in Your Hand
+          </h3>
+          <p>On iPhone, the laptop layout puts a full Mac keyboard&#8212;with &#8984;, &#8997;, &#8963; and arrow keys&#8212;and a trackpad under the picture. Save your Mac&#8217;s password and send it with Face ID.</p>
+        </div>
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07"/><path d="M19.07 4.93a10 10 0 010 14.14"/></svg>
+            Hear Your Mac
+          </h3>
+          <p>Your Mac&#8217;s sound plays on your iPhone or iPad, with a buffer that rides out Wi&#8209;Fi hiccups instead of skipping.</p>
+        </div>
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12.55a11 11 0 0114.08 0"/><path d="M1.42 9a16 16 0 0121.16 0"/><path d="M8.53 16.11a6 6 0 016.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+            Home, Away, on Cellular
+          </h3>
+          <p>Full detail on your home network. Over a VPN or 5G, ScreenMan adjusts quality and resolution to the connection so it stays responsive.</p>
+        </div>
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18.36 6.64a9 9 0 11-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+            Asleep or Signed Out
+          </h3>
+          <p>ScreenMan can wake a sleeping Mac with Wake on LAN where your Mac supports it, and works at the login window, so you can sign in from your iPhone.</p>
+        </div>
+        <div class="feature-card">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            Private by Design
+          </h3>
+          <p>Pair once with a QR code; after that your devices recognize each other by their keys. Everything is encrypted end to end. No account, no server, no tracking.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="setup">
+    <div class="container">
+      <div class="fade-in">
+        <p class="section-label">// SETUP</p>
+        <h2 class="section-title">Set Up in Three Steps</h2>
+        <p class="section-desc">About two minutes. The apps walk you through each step.</p>
+      </div>
+      <div class="steps fade-in">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Install ScreenMan Host on your Mac</h3>
+          <p><a href="#download">Download it</a> and open the installer. It runs quietly in the menu bar&#8212;look for a screen with a pointer.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Allow it on your Mac</h3>
+          <p>A setup window shows the two permissions ScreenMan Host needs&#8212;screen &amp; audio recording, and accessibility&#8212;with a button straight to each one.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Pair your iPhone or iPad</h3>
+          <p>Click <b>Pair iPhone or iPad&#8230;</b> on the Mac, then tap <b>Scan QR Code</b> in ScreenMan. That&#8217;s it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="container">
+      <div class="fade-in">
+        <p class="section-label">// FAQ</p>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-desc">Quick answers to common questions about ScreenMan.</p>
+      </div>
+      <div class="faq-list fade-in">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">What is ScreenMan?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer-inner">ScreenMan shows your Mac&#8217;s screen on your iPhone or iPad and lets you control it with touch, a trackpad layout, and a full Mac keyboard, with your Mac&#8217;s sound. It has two parts: the ScreenMan app on your iPhone or iPad, and ScreenMan Host, a small Mac app that shares the screen.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">What do I need?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer-inner">A Mac with Apple silicon running macOS 26 or later, and an iPhone or iPad running iOS or iPadOS 26 or later. Your devices need to reach each other: on the same network, or over a VPN when you&#8217;re away.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">Can I try it without a Mac?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes. Tap <b>Try the Demo</b> in the app for a pretend Mac that runs right on your iPhone or iPad. Drag windows, scroll, type, zoom, and try both control modes before you set anything up.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">Does it work away from home?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes, through a VPN that connects your iPhone or iPad to your home network (for example Tailscale or WireGuard). ScreenMan tries every address your Mac reports and adjusts quality to the connection, so it stays usable on cellular too.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">Why does ScreenMan Host need these permissions?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer-inner">Screen &amp; System Audio Recording lets it show your screen and play its sound on your iPhone or iPad. Accessibility lets your taps, clicks, and typing control the Mac. On macOS 27 both are a single switch under Privacy &amp; Security &#8594; Device Control and Data Access. If the switch is on but the setup window still says &#8220;Not allowed yet&#8221;, remove ScreenMan Host from the list with &#8722; and add it again.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">Is my screen private?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes. Your iPhone or iPad connects directly to your Mac over an encrypted connection; nothing passes through our servers, because there are none. Only devices you&#8217;ve paired can connect, and you can unpair any of them from the Mac&#8217;s menu bar. We collect no data&#8212;see the <a href="privacy.html">privacy policy</a>.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">How do I report a bug?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="faq-answer"><div class="faq-answer-inner">Use the <a href="#contact">contact form below</a> and choose &#8220;Bug Report&#8221;. Please include your iPhone or iPad model, your Mac model, both OS versions, and what happened.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="download">
+    <div class="container">
+      <div class="fade-in">
+        <p class="section-label">// DOWNLOAD</p>
+        <h2 class="section-title">Get ScreenMan</h2>
+        <p class="section-desc">Two parts: ScreenMan Host on your Mac, and the ScreenMan app on your iPhone or iPad.</p>
+      </div>
+      <div class="download-pair fade-in">
+        <div class="download-card">
+          <div class="download-icon">
+            <img src="icon-dark.png" alt="" width="100" height="100">
+          </div>
+          <div class="download-info">
+            <h3>ScreenMan Host for Mac</h3>
+            <p>Shares your Mac&#8217;s screen with your iPhone or iPad. Signed and notarized by Apple. Requires a Mac with Apple silicon and macOS 26 or later.</p>
+            <a href="ScreenMan-Host.pkg" class="btn btn-primary" download>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download for Mac
+            </a>
+          </div>
+        </div>
+        <div class="download-card">
+          <div class="download-icon">
+            <img src="icon-dark.png" alt="" width="100" height="100">
+          </div>
+          <div class="download-info">
+            <h3>ScreenMan for iPhone &amp; iPad</h3>
+            <p>See and control your Mac, with touch, a trackpad, and a full keyboard. Requires iOS or iPadOS 26 or later.</p>
+            <!-- Replace with the App Store link once ScreenMan is live. -->
+            <span class="app-store-badge soon" aria-label="Coming soon to the App Store">
+              <svg width="156" height="48" viewBox="0 0 156 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="156" height="48" rx="8" fill="#ffffff" fill-opacity="0.1" stroke="#ffffff" stroke-opacity="0.2" stroke-width="1"/>
+                <text x="54" y="19" fill="#ffffff" font-size="9" font-family="'DM Sans', sans-serif" opacity="0.8">Coming soon to the</text>
+                <text x="54" y="35" fill="#ffffff" font-size="16" font-family="'DM Sans', sans-serif" font-weight="700">App Store</text>
+                <g transform="translate(18, 10)">
+                  <path d="M18.3 8.5c-.1-2.5 2-3.7 2.1-3.8-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-2-.9-3.3-.8-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.6 1.3 10.1.8 1.2 1.9 2.6 3.2 2.5 1.3-.1 1.8-.8 3.3-.8s2 .8 3.3.8c1.4 0 2.3-1.2 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9 0 0-2.7-1-2.8-4.1h-.3zM15.8 3.3c.7-.9 1.2-2 1.1-3.3-1 0-2.3.7-3 1.6-.6.8-1.2 2-1 3.1 1.2.1 2.3-.6 2.9-1.4z" fill="white"/>
+                </g>
+              </svg>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="contact">
+    <div class="container">
+      <div class="fade-in">
+        <p class="section-label">// CONTACT</p>
+        <h2 class="section-title">Get in Touch</h2>
+        <p class="section-desc">Have a question, bug report, or feature request? We&#8217;d love to hear from you.</p>
+      </div>
+      <div class="contact-grid fade-in">
+        <div class="contact-info-card">
+          <div class="contact-method">
+            <div class="contact-method-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4l-10 8L2 4"/></svg>
+            </div>
+            <div>
+              <h4>Email</h4>
+              <p><a id="support-email" href="#">Loading...</a></p>
+            </div>
+          </div>
+          <div class="contact-method">
+            <div class="contact-method-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div>
+              <h4>Response Time</h4>
+              <p>We typically respond within 24&#8211;48 hours on business days.</p>
+            </div>
+          </div>
+          <div class="contact-method">
+            <div class="contact-method-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0112 2a8 8 0 018 8.2c0 7.3-8 11.8-8 11.8z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <h4>Version Info</h4>
+              <p>Include your iPhone or iPad and Mac models and OS versions when reporting issues.</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="contact-form" id="contactForm">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" placeholder="Your name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" placeholder="you&#64;example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="topic">Topic</label>
+              <select id="topic">
+                <option value="">Select a topic...</option>
+                <option value="general">General Question</option>
+                <option value="bug">Bug Report</option>
+                <option value="feature">Feature Request</option>
+                <option value="connection">Connection Issue</option>
+                <option value="setup">Mac Setup</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" placeholder="Describe your question or issue..." required></textarea>
+            </div>
+            <button class="btn btn-primary form-submit" onclick="submitForm()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              Send Message
+            </button>
+            <div class="form-success" id="formSuccess">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+              Message sent! We&#8217;ll get back to you soon.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <p class="footer-copy">&#169; 2026 The Coding Man. All rights reserved.</p>
+        <ul class="footer-links">
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="../index.html">All Apps</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+  (function() {
+    var u = 'support';
+    var d = 'thecodingman.net';
+    var el = document.getElementById('support-email');
+    if (el) {
+      el.href = 'mai' + 'lto:' + u + String.fromCharCode(64) + d;
+      el.textContent = u + String.fromCharCode(64) + d;
+    }
+  })();
+
+  function toggleFaq(btn) {
+    var item = btn.parentElement;
+    var wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
+    if (!wasOpen) item.classList.add('open');
+  }
+
+  function submitForm() {
+    var name = document.getElementById('name').value;
+    var email = document.getElementById('email').value;
+    var topic = document.getElementById('topic').value;
+    var message = document.getElementById('message').value;
+
+    if (!name || !email || !message) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    var btn = document.querySelector('.form-submit');
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    fetch('https://formspree.io/f/xnjbrgbo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        topic: topic,
+        message: message,
+        _subject: 'ScreenMan Support: ' + (topic || 'General')
+      })
+    })
+    .then(function(response) {
+      if (response.ok) {
+        document.getElementById('formSuccess').classList.add('show');
+        document.getElementById('name').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('topic').value = '';
+        document.getElementById('message').value = '';
+        setTimeout(function() {
+          document.getElementById('formSuccess').classList.remove('show');
+        }, 5000);
+      } else {
+        alert('Something went wrong. Please try emailing us directly.');
+      }
+    })
+    .catch(function() {
+      alert('Something went wrong. Please try emailing us directly.');
+    })
+    .finally(function() {
+      btn.disabled = false;
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send Message';
+    });
+  }
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+</script>
+</body>
+</html>
