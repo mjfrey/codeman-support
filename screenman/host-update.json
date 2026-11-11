@@ -1,12 +1,13 @@
 {
-  "version": "0.2",
-  "build": 2,
+  "version": "0.3",
+  "build": 3,
   "minimumSystemVersion": "26.0",
-  "url": "https://thecodingman.net/screenman/ScreenMan-Host-0.2.pkg",
-  "sha256": "65789a461ba5ae0575bc020f89c0311907dd971cc22a338329768f73c88a9cea",
+  "url": "https://thecodingman.net/screenman/ScreenMan-Host-0.3.pkg",
+  "sha256": "7152568050626a069806e6ed99b4abde166c48df9e02a974f18fc1e2c7158972",
   "notes": [
     "Wakes the Mac's displays reliably before streaming, so the picture no longer freezes after the screen sleeps",
     "Restarts screen capture if macOS stops it during a session",
-    "The menu bar icon always comes back after a restart"
+    "The menu bar icon always comes back after a restart",
+    "Check for Updates in the menu bar"
   ]
 }
