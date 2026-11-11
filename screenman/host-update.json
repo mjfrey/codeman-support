@@ -1,11 +1,12 @@
 {
-  "version": "0.4",
-  "build": 4,
+  "version": "0.5",
+  "build": 5,
   "minimumSystemVersion": "26.0",
-  "url": "https://thecodingman.net/screenman/ScreenMan-Host-0.4.pkg",
-  "sha256": "58b17cacadcf50df86760cf75ab792dbe3c0cd7f0e9c1b75229a3291c0ab7024",
+  "url": "https://thecodingman.net/screenman/ScreenMan-Host-0.5.pkg",
+  "sha256": "a5e94f10b8fc985e4e17c4bf9892b026a73d51274bc56ce9331fefa214477aae",
   "notes": [
-    "Fit Mac to This iPhone changes your Mac's display much less often: reconnecting keeps the same layout, and the Mac's screen goes back to normal only once it's awake",
-    "Fixes a crash in the background service"
+    "Hide Mac's Screen While Connected: the Mac's own screen stays dark and its keyboard and mouse are off while you're connected (needs the next iPhone/iPad update)",
+    "Fit Mac to This iPhone now switches the Mac's displays off while you're connected, like Apple's Screen Sharing, instead of changing their resolution",
+    "The Mac's screen comes back within seconds of disconnecting"
   ]
 }
