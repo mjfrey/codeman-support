@@ -1,10 +1,10 @@
 {
-  "version": "0.6",
-  "build": 6,
+  "version": "0.7",
+  "build": 7,
   "minimumSystemVersion": "26.0",
-  "url": "https://thecodingman.net/screenman/ScreenMan-Host-0.6.pkg",
-  "sha256": "3f0c1ca3035feca364b1ae77823efcfcac750b81ba3079f2e5b77dcab66ebddd",
+  "url": "https://thecodingman.net/screenman/ScreenMan-Host-0.7.pkg",
+  "sha256": "803e6de2045a92d772f51aa1c1ce175f48ee1f7c98d626fbb3e542c9d78a5150",
   "notes": [
-    "Fixes the Mac's monitor staying off after using Fit Mac to This iPhone"
+    "Fixes the Mac locking itself again right after you unlock it from your iPhone or iPad"
   ]
 }
