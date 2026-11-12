@@ -1,12 +1,10 @@
 {
-  "version": "0.8",
-  "build": 8,
+  "version": "0.9",
+  "build": 9,
   "minimumSystemVersion": "26.0",
-  "url": "https://thecodingman.net/screenman/ScreenMan-Host-0.8.pkg",
-  "sha256": "0d0ee4266c2d8f133291a4c43c9e3fa3d9a1f45f685944dc59c2d672aa5262ff",
+  "url": "https://thecodingman.net/screenman/ScreenMan-Host-0.9.pkg",
+  "sha256": "7566de0cd104515b89204eed1f53d6c236f3cc1761c7d66694e3e9101abeea14",
   "notes": [
-    "Much sharper and smoother over a VPN or the internet: starts at full quality and only backs off when the connection actually drops data",
-    "Still screens sharpen to full resolution even on slow connections",
-    "Fit Mac to This iPhone runs at 120 fps on ProMotion iPhones (needs the next iPhone update)"
+    "Recovers full sharpness within seconds after a hiccup on a VPN or the internet, instead of staying blurry"
   ]
 }
