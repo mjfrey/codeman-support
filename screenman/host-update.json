@@ -1,10 +1,12 @@
 {
-  "version": "0.7",
-  "build": 7,
+  "version": "0.8",
+  "build": 8,
   "minimumSystemVersion": "26.0",
-  "url": "https://thecodingman.net/screenman/ScreenMan-Host-0.7.pkg",
-  "sha256": "803e6de2045a92d772f51aa1c1ce175f48ee1f7c98d626fbb3e542c9d78a5150",
+  "url": "https://thecodingman.net/screenman/ScreenMan-Host-0.8.pkg",
+  "sha256": "0d0ee4266c2d8f133291a4c43c9e3fa3d9a1f45f685944dc59c2d672aa5262ff",
   "notes": [
-    "Fixes the Mac locking itself again right after you unlock it from your iPhone or iPad"
+    "Much sharper and smoother over a VPN or the internet: starts at full quality and only backs off when the connection actually drops data",
+    "Still screens sharpen to full resolution even on slow connections",
+    "Fit Mac to This iPhone runs at 120 fps on ProMotion iPhones (needs the next iPhone update)"
   ]
 }
